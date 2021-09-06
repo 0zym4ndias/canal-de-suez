@@ -1,9 +1,9 @@
 /*
 
-Nombre: 
-Nombre: 
+Nombre: Eduardo Loya Montes de Oca - A01383049
+Nombre: Roberto Abraham Perez Iga - A01384237
 Nombre: Axel Amos Hernández Cárdenas - A00829837
-Fecha de Creación: 
+Fecha de Creación: 06 de Septiembre del 2021
 Descripción: 
 
 */
@@ -131,7 +131,6 @@ int main()
     string date, hour, ub, nomArch;
     int dateInt;
     char entryDate;
-    bool archFound = true;
 
     vector<logSuez> vector1;
 
@@ -174,14 +173,10 @@ int main()
 
     for(int i = 0; i < vector1.size() - 1; i++){
         // vector<string> newVar = find(vector1.begin(), vector1.end(), serieSearch);
-        vector1[i].ubi.substr(0,3);
-        if (serieSearch == vector1[i].ubi.substr(0,3)){
-            
+        string newVar = vector1[i].ubi.substr(0,3);
+        if (serieSearch == newVar){
+            cout << vector1[i].ubi << " " << vector1[i].fecha << endl;
         }
-
     }
-
-
-
 }
 
