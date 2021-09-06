@@ -19,16 +19,19 @@ Descripción:
 
 using namespace std;
 
-struct logSuez{
+// * Struct para el vector que guardara el .txt file
+struct logSuez
+{
 
     string fecha;
     string hora;
     char entrada;
     string ubi;
     int fechaInt;
-
 };
 
+// * Funcion que transforma un mes a INT
+// !! Complejidad: ???
 int mestoi(string m)
 {
     if (m == "jan")
@@ -78,6 +81,8 @@ int mestoi(string m)
     return 12;
 }
 
+// * Funcion que transforma una fecha string a INT
+// ? Complejidad: O(n)
 int ftoi(string fecha)
 {
     int salida = 0;
@@ -86,7 +91,7 @@ int ftoi(string fecha)
     while (fecha[i] != '-')
     {
         aux *= 10;
-        aux += (fecha[i] - '0'); // '5' -'0' == 5 como entero (53-48)
+        aux += (fecha[i] - '0'); // * '5' -'0' == 5 como entero (53-48)
         i++;
     }
     salida += aux;
@@ -110,7 +115,18 @@ int ftoi(string fecha)
     return salida;
 }
 
-int main(){
+// * Función que ordena por UBI y si hay empate por fecha
+bool acompare(logSuez lhs, logSuez rhs)
+{
+    if(lhs.ubi == rhs.ubi){
+        return lhs.fechaInt < rhs.fechaInt;
+    }
+    return(lhs.ubi.compare(rhs.ubi) < 0); // * Cuidado como compara 2 strings
+}
+
+// * Ordena por UBI y si hay empate por fecha
+int main()
+{
 
     string date, hour, ub, nomArch;
     int dateInt;
@@ -122,7 +138,8 @@ int main(){
     cout << "Nombre del archivo -> ";
     cin >> nomArch;
 
-    while(nomArch != "suez.txt"){
+    while (nomArch != "suez.txt")
+    {
         cout << "Archivo no encontrado. Proporcione otro nombre -> ";
         cin >> nomArch;
     }
@@ -130,33 +147,41 @@ int main(){
     ifstream datosSuez;
     datosSuez.open("suez.txt");
 
-    while(datosSuez >> date >> hour >> entryDate >> ub){
+    while (datosSuez >> date >> hour >> entryDate >> ub)
+    {
 
         logSuez registro;
-        
+
         registro.fecha = date;
         registro.hora = hour;
         registro.entrada = entryDate;
         registro.ubi = ub;
         registro.fechaInt = ftoi(date);
         vector1.push_back(registro);
+    }
+
+    cout << "Funcionando" << endl;
+    datosSuez.close();
+
+    sort(vector1.begin(), vector1.end(), acompare);
+
+    cout << "Funcionado x2" << endl;
+
+    string serieSearch;
+
+    cout << "Serie a buscar -> ";
+    cin >> serieSearch;
+
+    for(int i = 0; i < vector1.size() - 1; i++){
+        // vector<string> newVar = find(vector1.begin(), vector1.end(), serieSearch);
+        vector1[i].ubi.substr(0,3);
+        if (serieSearch == vector1[i].ubi.substr(0,3)){
+            
+        }
 
     }
 
 
 
-    cout << "Funcionando" << endl;
-
-    datosSuez.close();
-
 }
-   
-    
-
-
-
-
-
-
-
 
