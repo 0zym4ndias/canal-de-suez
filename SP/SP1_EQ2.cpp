@@ -1,11 +1,20 @@
 /*
-
 Nombre: Eduardo Loya Montes de Oca - A01383049
 Nombre: Roberto Abraham Perez Iga - A01384237
 Nombre: Axel Amos Hernández Cárdenas - A00829837
 Fecha de Creación: 06 de Septiembre del 2021
-Descripción: 
+Ultima Versión: 10 de Septiembre del 2021
 
+Descripción: El canal de Suez es un canal navegable que conecta el mar 
+Mediterráneo con el mar Rojo a través de alrededor de 190 km, uniendo por 
+un el lado del mar Mediterráneo desde el puerto Said hasta el golfo de Suez en 
+el mar Rojo. Este canal es navegado entre 49 y 97 barcos diariamente.
+
+Objetivos:
+1. Solicite el nombre del archivo de entrada (Ej. canal.txt) y lo abra, almacenando los datos en un vector.
+2. Ordene la información por UBI + Fecha (primero por UBI, al haber empate ordenar por fecha).
+3. Solicite al usuario la serie a buscar (los primeros tres caracteres de el UBI).
+4. Despliegue todas las entradas al canal de los buques de esas series en forma ordenada UBI+Fecha.
 */
 
 #include <iostream>
@@ -31,7 +40,7 @@ struct logSuez
 };
 
 // * Funcion que transforma un mes a INT
-// !! Complejidad: ???
+// ? Complejidad: O(1)
 int mestoi(string m)
 {
     if (m == "jan")
@@ -116,17 +125,60 @@ int ftoi(string fecha)
 }
 
 // * Función que ordena por UBI y si hay empate por fecha
+// ? Complejidad: O(n) - Por la función .compare()
 bool acompare(logSuez lhs, logSuez rhs)
 {
-    if(lhs.ubi == rhs.ubi){
+    if (lhs.ubi == rhs.ubi)
+    {
         return lhs.fechaInt < rhs.fechaInt;
     }
-    return(lhs.ubi.compare(rhs.ubi) < 0); // * Cuidado como compara 2 strings
+    return (lhs.ubi.compare(rhs.ubi) < 0); // * Cuidado como compara 2 strings
 }
 
-// * Ordena por UBI y si hay empate por fecha
+// * Funcion de busqueda binaria que busca la serie deseada por el usuario y regesa la posicion de la última coincidencia
+// ? Compleidad: O(log(n))
+int buscaBinaria(vector<logSuez> &vect, string dato, bool &found)
+{
+    found = false;
+    int inicio = 0, fin = vect.size() - 1, mitad;
+    while (inicio <= fin)
+    {
+
+        mitad = (inicio + fin) / 2;
+
+        if (vect[mitad].ubi.substr(0, 3) == dato) // * Busca la serie
+        {
+
+            if (mitad == 0 || vect[mitad - 1].ubi.substr(0, 3) != dato)
+            {
+
+                found = true;
+                return mitad;
+            }
+            else
+            {
+                fin = mitad - 1;
+            }
+        }
+        else
+        {
+            if (vect[mitad].ubi.substr(0, 3).compare(dato) > 0)
+            { // * El dato que busco es menor al central
+                fin = mitad - 1;
+            }
+            else
+            { // * El dato que busco es mayor al central
+                inicio = mitad + 1;
+            }
+        }
+    }
+    //cout << "No lo encontré" << endl;
+    return found;
+}
+
 int main()
 {
+    system("cls"); // * Limpiar la terminal
 
     string date, hour, ub, nomArch;
     int dateInt;
@@ -159,24 +211,35 @@ int main()
         vector1.push_back(registro);
     }
 
-    cout << "Funcionando" << endl;
     datosSuez.close();
 
     sort(vector1.begin(), vector1.end(), acompare);
-
-    cout << "Funcionado x2" << endl;
 
     string serieSearch;
 
     cout << "Serie a buscar -> ";
     cin >> serieSearch;
 
-    for(int i = 0; i < vector1.size() - 1; i++){
-        // vector<string> newVar = find(vector1.begin(), vector1.end(), serieSearch);
-        string newVar = vector1[i].ubi.substr(0,3);
-        if (serieSearch == newVar){
-            cout << vector1[i].ubi << " " << vector1[i].fecha << endl;
+    bool elementFound;
+    int posBus = buscaBinaria(vector1, serieSearch, elementFound);
+
+    if (elementFound)
+    {
+        while (elementFound == true)
+        {
+            if (vector1[posBus].ubi.substr(0, 3) == serieSearch)
+            {
+                cout << vector1[posBus].ubi << " " << vector1[posBus].fecha << endl;
+                posBus++;
+            }
+            else
+            {
+                elementFound = false;
+            }
         }
     }
+    else
+    {
+        cout << "Serie no encontrada" << endl;
+    }
 }
-
