@@ -221,7 +221,7 @@ int main(){
 
     cout << "Ordenando Datos..." << endl;
     cout << endl;
-    
+
     sort(vector1.begin(), vector1.end(), acompare); // * Ordenando el vector
 
     // ! Output file
@@ -252,6 +252,7 @@ int main(){
             else{
 
                 elementFound = false;
+                return 0;
             }
         }
     }
