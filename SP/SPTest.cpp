@@ -29,7 +29,7 @@ struct logSuez
 };
 
 // * Funcion que transforma un mes a INT
-// !! Complejidad: ???
+// ? Complejidad: O(1)
 int mestoi(string m)
 {
     if (m == "jan")
@@ -114,6 +114,7 @@ int ftoi(string fecha)
 }
 
 // * Función que ordena por UBI y si hay empate por fecha
+// ? Complejidad: O(n) - Por la función .compare()
 bool acompare(logSuez lhs, logSuez rhs)
 {
     if (lhs.ubi == rhs.ubi)
@@ -123,9 +124,50 @@ bool acompare(logSuez lhs, logSuez rhs)
     return (lhs.ubi.compare(rhs.ubi) < 0); // * Cuidado como compara 2 strings
 }
 
-// * Ordena por UBI y si hay empate por fecha
+// * Funcion de busqueda binaria que busca la serie deseada
+// ? Compleidad: O(log(n))
+int buscaBinaria(vector<logSuez> &vect, string dato, bool &found)
+{
+    found = false;
+    int inicio = 0, fin = vect.size() - 1, mitad;
+    while (inicio <= fin)
+    {
+
+        mitad = (inicio + fin) / 2;
+    
+        if (vect[mitad].ubi.substr(0, 3) == dato) // * Busca la serie
+        {
+            
+            if (mitad == 0 || vect[mitad - 1].ubi.substr(0, 3) != dato)
+            {
+                
+                found = true;
+                return mitad;
+            }
+            else
+            {
+                fin = mitad - 1;
+            }
+        }
+        else
+        {
+            if (vect[mitad].ubi.substr(0, 3).compare(dato) > 0)
+            { // * El dato que busco es menor al central
+                fin = mitad - 1;
+            }
+            else
+            { // * El dato que busco es mayor al central
+                inicio = mitad + 1;
+            }
+        }
+    }
+    //cout << "No lo encontré" << endl;
+    return found;
+}
+
 int main()
 {
+    system("cls"); // * Limpiar la terminal
 
     string date, hour, ub, nomArch;
     int dateInt;
@@ -158,44 +200,37 @@ int main()
         vector1.push_back(registro);
     }
 
-    cout << "Funcionando" << endl;
+
     datosSuez.close();
 
-    for (int j = 0; j < vector1.size(); j++)
-    {
-        cout << vector1[j].fecha << endl;
-    }
     sort(vector1.begin(), vector1.end(), acompare);
-
-    cout << "Funcionado x2" << endl;
 
     string serieSearch;
 
     cout << "Serie a buscar -> ";
     cin >> serieSearch;
 
-    /*
-    for(int i = 0; i < vector1.size() - 1; i++){
-        // vector<string> newVar = find(vector1.begin(), vector1.end(), serieSearch);
-        string newVar = vector1[i].ubi.substr(0,3);
-        if (serieSearch == newVar){
-            cout << vector1[i].ubi << " " << vector1[i].fecha << endl;
-        }
-    }
-    */
+    bool elementFound;
+    int posBus = buscaBinaria(vector1, serieSearch, elementFound);
 
-    vector<logSuez>::iterator low, up;
-
-    low = lower_bound(vector1.begin(), vector1.end(), serieSearch);
-    int posicion = (low - vector1.begin());
-
-    if (vector1[posicion].ubi.substr(0, 3) == serieSearch)
+    if (elementFound)
     {
-        cout << vector1[posicion].ubi << " " << vector1[posicion].fecha << endl;
-        posicion++;
+        while (elementFound == true)
+        {
+            //cout << "Funcionando x4 " << posBus << endl;
+            if (vector1[posBus].ubi.substr(0, 3) == serieSearch)
+            {
+                cout << vector1[posBus].ubi << " " << vector1[posBus].fecha << endl;
+                posBus++;
+            }
+            else
+            {
+                elementFound = false;
+            }
+        }
     }
     else
     {
-        cout << "No lo encontre" << endl;
+        cout << "Serie no encontrada" << endl;
     }
 }
