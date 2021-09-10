@@ -29,8 +29,7 @@ Objetivos:
 using namespace std;
 
 // * Struct para el vector que guardara el .txt file
-struct logSuez
-{
+struct logSuez{
 
     string fecha;
     string hora;
@@ -41,50 +40,50 @@ struct logSuez
 
 // * Funcion que transforma un mes a INT
 // ? Complejidad: O(1)
-int mestoi(string m)
-{
-    if (m == "jan")
-    {
+int mestoi(string m){
+
+    if (m == "jan"){
+
         return 1;
     }
-    if (m == "feb")
-    {
+    if (m == "feb"){
+
         return 2;
     }
-    if (m == "mar")
-    {
+    if (m == "mar"){
+
         return 3;
     }
-    if (m == "apr")
-    {
+    if (m == "apr"){
+
         return 4;
     }
-    if (m == "may")
-    {
+    if (m == "may"){
+
         return 5;
     }
-    if (m == "jun")
-    {
+    if (m == "jun"){
+
         return 6;
     }
-    if (m == "jul")
-    {
+    if (m == "jul"){
+
         return 7;
     }
-    if (m == "aug")
-    {
+    if (m == "aug"){
+
         return 8;
     }
-    if (m == "sep")
-    {
+    if (m == "sep"){
+
         return 9;
     }
-    if (m == "oct")
-    {
+    if (m == "oct"){
+
         return 10;
     }
-    if (m == "nov")
-    {
+    if (m == "nov"){
+
         return 11;
     }
     return 12;
@@ -92,44 +91,50 @@ int mestoi(string m)
 
 // * Funcion que transforma una fecha string a INT
 // ? Complejidad: O(n)
-int ftoi(string fecha)
-{
+int ftoi(string fecha){
+
     int salida = 0;
     int aux = 0;
     int i = 0;
-    while (fecha[i] != '-')
-    {
+
+    while (fecha[i] != '-'){
+
         aux *= 10;
         aux += (fecha[i] - '0'); // * '5' -'0' == 5 como entero (53-48)
         i++;
     }
+
     salida += aux;
     i++;
     string mes = "";
-    while (fecha[i] != '-')
-    {
+
+    while (fecha[i] != '-'){
+
         mes += fecha[i];
         i++;
     }
+
     salida += (mestoi(mes) * 100);
     aux = 0;
     i++;
-    while (i < fecha.length())
-    {
+
+    while (i < fecha.length()){
+
         aux *= 10;
         aux += (fecha[i] - '0'); // '5' -'0' == 5 como entero (53-48)
         i++;
     }
+
     salida += (aux * 10000);
     return salida;
 }
 
 // * Función que ordena por UBI y si hay empate por fecha
 // ? Complejidad: O(n) - Por la función .compare()
-bool acompare(logSuez lhs, logSuez rhs)
-{
-    if (lhs.ubi == rhs.ubi)
-    {
+bool acompare(logSuez lhs, logSuez rhs){
+    
+    if (lhs.ubi == rhs.ubi){
+
         return lhs.fechaInt < rhs.fechaInt;
     }
     return (lhs.ubi.compare(rhs.ubi) < 0); // * Cuidado como compara 2 strings
@@ -137,37 +142,34 @@ bool acompare(logSuez lhs, logSuez rhs)
 
 // * Funcion de busqueda binaria que busca la serie deseada por el usuario y regesa la posicion de la última coincidencia
 // ? Compleidad: O(log(n))
-int buscaBinaria(vector<logSuez> &vect, string dato, bool &found)
-{
+int buscaBinaria(vector<logSuez> &vect, string dato, bool &found){
+
     found = false;
     int inicio = 0, fin = vect.size() - 1, mitad;
-    while (inicio <= fin)
-    {
+    while (inicio <= fin){
 
         mitad = (inicio + fin) / 2;
 
-        if (vect[mitad].ubi.substr(0, 3) == dato) // * Busca la serie
-        {
+        if (vect[mitad].ubi.substr(0, 3) == dato){ // * Busca la serie
 
-            if (mitad == 0 || vect[mitad - 1].ubi.substr(0, 3) != dato)
-            {
+            if (mitad == 0 || vect[mitad - 1].ubi.substr(0, 3) != dato){
 
                 found = true;
                 return mitad;
             }
-            else
-            {
+            else{
+
                 fin = mitad - 1;
             }
         }
-        else
-        {
-            if (vect[mitad].ubi.substr(0, 3).compare(dato) > 0)
-            { // * El dato que busco es menor al central
+        else{
+
+            if (vect[mitad].ubi.substr(0, 3).compare(dato) > 0){ // * El dato que busco es menor al central
+
                 fin = mitad - 1;
             }
-            else
-            { // * El dato que busco es mayor al central
+            else{ // * El dato que busco es mayor al central
+
                 inicio = mitad + 1;
             }
         }
@@ -176,8 +178,8 @@ int buscaBinaria(vector<logSuez> &vect, string dato, bool &found)
     return found;
 }
 
-int main()
-{
+int main(){
+
     system("cls"); // * Limpiar la terminal
 
     string date, hour, ub, nomArch;
@@ -186,20 +188,24 @@ int main()
 
     vector<logSuez> vector1;
 
-    cout << "Nombre del archivo -> ";
+    cout << "\t .:Archivos Disponibles:.\n" << endl;
+    cout << "1. suez.txt" << endl;
+    cout << endl;
+    cout << "Abrir archivo -> ";
     cin >> nomArch;
+    cout << endl;
 
-    while (nomArch != "suez.txt")
-    {
+    while (nomArch != "suez.txt"){
+
         cout << "Archivo no encontrado. Proporcione otro nombre -> ";
         cin >> nomArch;
+        cout << endl;
     }
 
     ifstream datosSuez;
     datosSuez.open("suez.txt");
 
-    while (datosSuez >> date >> hour >> entryDate >> ub)
-    {
+    while (datosSuez >> date >> hour >> entryDate >> ub){
 
         logSuez registro;
 
@@ -213,7 +219,15 @@ int main()
 
     datosSuez.close();
 
-    sort(vector1.begin(), vector1.end(), acompare);
+    sort(vector1.begin(), vector1.end(), acompare); // * Ordenando el vector
+
+    // ! Output file
+    /*
+    ofstream file_out("test.txt");
+    for (int i = 0; i < vector1.size(); ++i){
+        file_out << vector1[i].fecha << " " << vector1[i].hora << " " << vector1[i].entrada << " " << vector1[i].ubi << " " << vector1[i].fechaInt << endl;
+        }
+    */
 
     string serieSearch;
 
@@ -223,23 +237,23 @@ int main()
     bool elementFound;
     int posBus = buscaBinaria(vector1, serieSearch, elementFound);
 
-    if (elementFound)
-    {
-        while (elementFound == true)
-        {
-            if (vector1[posBus].ubi.substr(0, 3) == serieSearch)
-            {
+    if (elementFound){
+
+        while (elementFound == true){
+
+            if (vector1[posBus].ubi.substr(0, 3) == serieSearch){
+
                 cout << vector1[posBus].ubi << " " << vector1[posBus].fecha << endl;
                 posBus++;
             }
-            else
-            {
+            else{
+
                 elementFound = false;
             }
         }
     }
-    else
-    {
+    else{
+
         cout << "Serie no encontrada" << endl;
     }
 }
