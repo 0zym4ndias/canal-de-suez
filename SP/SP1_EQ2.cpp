@@ -219,6 +219,9 @@ int main(){
 
     datosSuez.close();
 
+    cout << "Ordenando Datos..." << endl;
+    cout << endl;
+    
     sort(vector1.begin(), vector1.end(), acompare); // * Ordenando el vector
 
     // ! Output file
