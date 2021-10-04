@@ -50,6 +50,7 @@ struct registro
     friend ostream &operator<<(ostream &os, const registro &otra);
 };
 
+// * Funcion que sobrecarga el operator <<
 ostream &operator<<(ostream &os, const registro &otra)
 {
     // Instrucciones
