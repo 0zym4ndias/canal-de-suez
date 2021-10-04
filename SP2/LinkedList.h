@@ -28,6 +28,7 @@ public:
     void operator=(const LinkedList<T> &otra);
     void print();
     void sort();
+    void fileout(string archSalida);
 
     // * Atributos privados
 private:
@@ -478,4 +479,20 @@ void LinkedList<T>::sort() // Intercambio
             i = i->getNext();
         }
     }
+}
+
+template <class T>
+void LinkedList<T>::fileout(string archSalida){
+    
+    ofstream file_out(archSalida);
+    
+    Node<T> *curr = head;
+
+    while (curr != nullptr)
+    {
+        file_out << curr->getData() << endl;
+        curr = curr->getNext();
+    }
+
+    file_out.close();
 }

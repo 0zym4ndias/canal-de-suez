@@ -219,9 +219,15 @@ int main()
     buquesM.sort();
     buquesR.sort();
 
-    cout << "BuqM" << endl;
-    buquesM.print();
-    cout << "BuqR" << endl;
-    buquesR.print();
+    string archSalida;
+    cout << "Nombre de archivo de salida para buques del Mar Mediterraneo -> ";
+    cin >> archSalida;
+    buquesM.fileout(archSalida);
 
+    cout << "Nombre de archivo de salida para buques del Mar Rojo -> ";
+    cin >> archSalida;
+    buquesR.fileout(archSalida);
+
+    // en el cuarto se puede usar vector
+    
 }
