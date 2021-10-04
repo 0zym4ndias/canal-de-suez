@@ -29,22 +29,29 @@ using namespace std;
 
 #include "LinkedList.h"
 
-
 // * Struct para el vector que guardara el .txt file
-struct registro{
+struct registro
+{
 
     string fecha;
     string hora;
     char entrada;
     string ubi;
     int fechaInt;
-    bool operator>(const registro &otro) const{
-        // Comparar segun los criterios
+    bool operator>(const registro &otro) const
+    {
+        if (this->ubi == otro.ubi)
+        {
+            return this->fechaInt > otro.fechaInt;
+        }
+        return (this->ubi.compare(otro.ubi) > 0); // * Cuidado como compara 2 strings
     }
-    friend ostream& operator<<(ostream &os, const registro &otra);
+
+    friend ostream &operator<<(ostream &os, const registro &otra);
 };
 
-ostream& operator<<(ostream &os, const registro &otra){
+ostream &operator<<(ostream &os, const registro &otra)
+{
     // Instrucciones
     os << otra.ubi << " " << otra.fecha << " " << otra.hora << " " << otra.entrada << endl;
     return os;
@@ -52,49 +59,61 @@ ostream& operator<<(ostream &os, const registro &otra){
 
 // * Funcion que transforma un mes a INT
 // ? Complejidad: O(1)
-int mestoi(string m){
+int mestoi(string m)
+{
 
-    if (m == "jan"){
+    if (m == "jan")
+    {
 
         return 1;
     }
-    if (m == "feb"){
+    if (m == "feb")
+    {
 
         return 2;
     }
-    if (m == "mar"){
+    if (m == "mar")
+    {
 
         return 3;
     }
-    if (m == "apr"){
+    if (m == "apr")
+    {
 
         return 4;
     }
-    if (m == "may"){
+    if (m == "may")
+    {
 
         return 5;
     }
-    if (m == "jun"){
+    if (m == "jun")
+    {
 
         return 6;
     }
-    if (m == "jul"){
+    if (m == "jul")
+    {
 
         return 7;
     }
-    if (m == "aug"){
+    if (m == "aug")
+    {
 
         return 8;
     }
-    if (m == "sep"){
+    if (m == "sep")
+    {
 
         return 9;
     }
-    if (m == "oct"){
+    if (m == "oct")
+    {
 
         return 10;
     }
-    if (m == "nov"){
+    if (m == "nov")
+    {
 
         return 11;
     }
@@ -103,13 +122,15 @@ int mestoi(string m){
 
 // * Funcion que transforma una fecha string a INT
 // ? Complejidad: O(n)
-int ftoi(string fecha){
+int ftoi(string fecha)
+{
 
     int salida = 0;
     int aux = 0;
     int i = 0;
 
-    while (fecha[i] != '-'){
+    while (fecha[i] != '-')
+    {
 
         aux *= 10;
         aux += (fecha[i] - '0'); // * '5' -'0' == 5 como entero (53-48)
@@ -120,7 +141,8 @@ int ftoi(string fecha){
     i++;
     string mes = "";
 
-    while (fecha[i] != '-'){
+    while (fecha[i] != '-')
+    {
 
         mes += fecha[i];
         i++;
@@ -130,7 +152,8 @@ int ftoi(string fecha){
     aux = 0;
     i++;
 
-    while (i < fecha.length()){
+    while (i < fecha.length())
+    {
 
         aux *= 10;
         aux += (fecha[i] - '0'); // '5' -'0' == 5 como entero (53-48)
@@ -141,7 +164,8 @@ int ftoi(string fecha){
     return salida;
 }
 
-int main(){
+int main()
+{
 
     system("cls"); // * Limpiar la terminal
 
@@ -153,7 +177,8 @@ int main(){
     cin >> nomArch;
     cout << endl;
 
-    while (nomArch != "suez.txt"){
+    while (nomArch != "suez.txt")
+    {
 
         cout << "Favor de insertar archivo suez.txt -> ";
         cin >> nomArch;
@@ -166,8 +191,8 @@ int main(){
     LinkedList<registro> buquesM;
     LinkedList<registro> buquesR;
 
-    while (datosSuez >> date >> hour >> entryDate >> ub){
-
+    while (datosSuez >> date >> hour >> entryDate >> ub)
+    {
         registro registro;
 
         registro.fecha = date;
@@ -175,11 +200,13 @@ int main(){
         registro.entrada = entryDate;
         registro.ubi = ub;
         registro.fechaInt = ftoi(date);
-        
-        if(registro.entrada == 'M'){
+
+        if (registro.entrada == 'M')
+        {
             buquesM.addLast(registro);
         }
-        else{
+        else
+        {
             buquesR.addLast(registro);
         }
     }
@@ -188,5 +215,13 @@ int main(){
 
     cout << "Ordenando Datos..." << endl;
     cout << endl;
+
+    buquesM.sort();
+    buquesR.sort();
+
+    cout << "BuqM" << endl;
+    buquesM.print();
+    cout << "BuqR" << endl;
+    buquesR.print();
 
 }
