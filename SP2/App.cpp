@@ -50,6 +50,14 @@ struct registro
     friend ostream &operator<<(ostream &os, const registro &otra);
 };
 
+struct registroVect{
+
+    string fecha;
+    int buquesM;
+    int buquesR;
+};
+
+
 // * Funcion que sobrecarga el operator <<
 ostream &operator<<(ostream &os, const registro &otra)
 {
@@ -165,6 +173,8 @@ int ftoi(string fecha)
     return salida;
 }
 
+
+
 int main()
 {
 
@@ -230,5 +240,14 @@ int main()
     buquesR.fileout(archSalida);
 
     // en el cuarto se puede usar vector
+    string serieSearch;
+
+    cout << "Serie a buscar -> ";
+    cin >> serieSearch;
+
+    vector<registroVect> vect1;
+    
+    
+    
     
 }

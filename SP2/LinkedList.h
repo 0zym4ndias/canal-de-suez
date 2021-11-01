@@ -463,11 +463,11 @@ void LinkedList<T>::sort() // Intercambio
 
         while (i->getNext() != nullptr)
         {
-            cout << "Pase 1" << endl;
+            //cout << "Pase 1" << endl;
             Node<T> *j = i->getNext();
             while (j != nullptr)
             {
-                cout << "Pase 2" << endl;
+                //cout << "Pase 2" << endl;
                 if (i->getData() > j->getData())
                 {
                     T dataAux = i->getData();
@@ -496,3 +496,4 @@ void LinkedList<T>::fileout(string archSalida){
 
     file_out.close();
 }
+
