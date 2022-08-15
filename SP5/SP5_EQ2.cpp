@@ -26,14 +26,14 @@ int main(){
     int desc, cantParr, valorDolar;
     string palabra;
     cin >> desc >> cantParr;
-    //  Lees descriptores
+    //  Creamos el unordered_map con el par de llave e int
     unordered_map<string, int> umapa;
 
     for(int i=0; i < desc; i++){
-
+        // Introducimos <string, valor>
         cin >> palabra >> valorDolar;
         if(umapa.find(palabra) == umapa.end()){ // * Encontramos si ya se ocupó la key
-            
+            // Guardamos
             umapa[palabra] = valorDolar;
         }
         else{
@@ -47,14 +47,15 @@ int main(){
     while(cantParr){ // * Entero NO CERO = true, 0 es false
 
         cin >> s;
-        if (s == "."){
+        if (s == "."){ // Si llegamos a un ".", se hace un reset.
 
             cantParr--;
             cout << /*"El total es: " <<*/ total << endl;
             total = 0;
         }
         else{
-            if(umapa.find(s) == umapa.end()){
+            // Find tiene complejidad de O(1)
+            if(umapa.find(s) == umapa.end()){ // Mientras no lleguemos al . y al final del umap, sumamos el valor.
                 //cout << "No encontrado" << endl;
             }
             else{
